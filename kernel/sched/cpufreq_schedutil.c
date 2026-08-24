@@ -239,7 +239,7 @@ static inline unsigned long sugov_apply_dvfs_headroom(unsigned long util,
 {
 	unsigned long delta, headroom;
 	unsigned long capped_util = min(util, capacity);
-	unsigned long delta_t = (capacity * 220) >> 10;
+	unsigned long delta_t = (capacity * 150) >> 10;
 
 	delta = capacity - capped_util;
 
