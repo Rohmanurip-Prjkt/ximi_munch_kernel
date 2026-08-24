@@ -25,23 +25,12 @@ static unsigned int input_boost_freq_big __read_mostly =
 	CONFIG_INPUT_BOOST_FREQ_PERF;
 static unsigned int input_boost_freq_prime __read_mostly =
 	CONFIG_INPUT_BOOST_FREQ_PRIME;
-static unsigned int cpu_freq_min_little __read_mostly =
-	CONFIG_CPU_FREQ_MIN_LP;
-static unsigned int cpu_freq_min_big __read_mostly =
-	CONFIG_CPU_FREQ_MIN_PERF;
-static unsigned int cpu_freq_min_prime __read_mostly =
-	CONFIG_CPU_FREQ_MIN_PRIME;
-
 static unsigned short input_boost_duration __read_mostly =
 	CONFIG_INPUT_BOOST_DURATION_MS;
 
 module_param(input_boost_freq_little, uint, 0644);
 module_param(input_boost_freq_big, uint, 0644);
 module_param(input_boost_freq_prime, uint, 0644);
-module_param(cpu_freq_min_little, uint, 0644);
-module_param(cpu_freq_min_big, uint, 0644);
-module_param(cpu_freq_min_prime, uint, 0644);
-
 module_param(input_boost_duration, short, 0644);
 
 enum {
@@ -80,16 +69,7 @@ static unsigned int get_input_boost_freq(struct cpufreq_policy *policy)
 
 static unsigned int get_min_freq(struct cpufreq_policy *policy)
 {
-	unsigned int freq;
-
-	if (cpumask_test_cpu(policy->cpu, cpu_lp_mask))
-		freq = cpu_freq_min_little;
-	else if (cpumask_test_cpu(policy->cpu, cpu_perf_mask))
-		freq = cpu_freq_min_big;
-	else
-		freq = cpu_freq_min_prime;
-
-	return max(freq, policy->cpuinfo.min_freq);
+	return max(0, policy->cpuinfo.min_freq);
 }
 
 
